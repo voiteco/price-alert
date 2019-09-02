@@ -1,0 +1,47 @@
+parameters:
+    notification_sender: telegram
+    telegram:
+        token: '%env(resolve:TELEGRAM_TOKEN)%'
+        chat: '%env(resolve:TELEGRAM_CHAT)%'
+
+    templates:
+        price_alert: '%kernel.project_dir%/templates/price_alert.md'
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    App\:
+        resource: '../src/*'
+        exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
+
+    App\Command\ProductProcessCommand:
+        arguments:
+            $providerLocator: '@app.provider_locator'
+
+    app.provider_locator:
+        class: Symfony\Component\DependencyInjection\ServiceLocator
+        tags: ['container.service_locator']
+        arguments:
+            -
+                idealo: '@App\Service\Provider\IdealoProvider'
+
+    App\Service\Notification\NotificationService:
+        arguments:
+            $sender: '%notification_sender%'
+            $senderLocator: '@app.notification_sender_locator'
+
+    app.notification_sender_locator:
+        class: Symfony\Component\DependencyInjection\ServiceLocator
+        tags: ['container.service_locator']
+        arguments:
+            -   telegram: '@App\Service\Notification\TelegramSender'
+
+    App\Service\Notification\TelegramSender:
+        arguments:
+            $config: '%telegram%'
+
+    App\Service\Template\TemplateService:
+        arguments:
+            $templates: '%templates%'
