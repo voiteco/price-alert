@@ -87,15 +87,20 @@ class ProductService
      */
     public function sendPriceAlert(ProductSource $productSource, string $oldPrice): void
     {
-        $differenceInPercents = PriceHelper::calculateDifferenceInPercent($oldPrice, $productSource->getLatestPrice());
-        $data = [
-            'title' => $productSource->getProduct()->getName(),
-            'imageUrl' => $productSource->getProduct()->getImageUrl(),
-            'oldPrice' => $oldPrice,
-            'newPrice' => $productSource->getLatestPrice(),
-            'differenceInPercents' => $differenceInPercents,
-        ];
+        $difference = PriceHelper::calculateDifferenceInPercent($oldPrice, $productSource->getLatestPrice());
+        $product = $productSource->getProduct();
+        $dto = new ProductDto(
+            $product->getName(),
+            $product->getProductUrl(),
+            $product->getImageUrl(),
+            $oldPrice,
+            $productSource->getLatestPrice(),
+            $difference
+        );
 
-        $this->notificationService->send(NotificationService::PRICE_ALERT_ACTION, $data);
+        $this->notificationService->send(
+            NotificationService::PRICE_ALERT_ACTION,
+            $dto->asArray()
+        );
     }
 }

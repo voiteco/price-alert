@@ -10,20 +10,20 @@ class PriceHelper
      * @param string $oldPrice
      * @param string $newPrice
      *
-     * @return float
+     * @return string
      */
-    public static function calculateDifference(string $oldPrice, string $newPrice): float
+    public static function calculateDifference(string $oldPrice, string $newPrice): string
     {
-        return floatval(bcsub($oldPrice, $newPrice, 2));
+        return bcsub($oldPrice, $newPrice, 2);
     }
 
     /**
      * @param string $oldPrice
      * @param string $newPrice
      *
-     * @return float
+     * @return string
      */
-    public static function calculateDifferenceInPercent(string $oldPrice, string $newPrice): float
+    public static function calculateDifferenceInPercent(string $oldPrice, string $newPrice): string
     {
         $negative = false;
 
@@ -41,6 +41,6 @@ class PriceHelper
             $percentage = '-'.$percentage;
         }
 
-        return floatval($percentage);
+        return $percentage;
     }
 }

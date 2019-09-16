@@ -45,6 +45,13 @@ class Product
      *
      * @ORM\Column(type="string", length=255, nullable=true)
      */
+    private $productUrl;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
     private $imageUrl;
 
     /**
@@ -113,6 +120,22 @@ class Product
     public function setStatus(string $status): void
     {
         $this->status = $status;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getProductUrl(): ?string
+    {
+        return $this->productUrl;
+    }
+
+    /**
+     * @param string|null $productUrl
+     */
+    public function setProductUrl(?string $productUrl): void
+    {
+        $this->productUrl = $productUrl;
     }
 
     /**

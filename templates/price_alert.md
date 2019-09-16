@@ -1,6 +1,6 @@
 *Hey, there is a new price for {title}!*
 
 The old price was *{oldPrice}*, and now it is *{newPrice}*. 
-The difference is *{differenceInPercents}%*.
+The difference is *{diff}%*.
 
-[Image]({imageUrl})
+[{url}]({image})
