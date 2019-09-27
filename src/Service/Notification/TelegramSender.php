@@ -36,6 +36,7 @@ class TelegramSender implements SenderInterface
             'chat_id' => $this->config['chat'],
             'text' => $message,
             'parse_mode' => 'Markdown',
+            'disable_web_page_preview' => false,
         ];
 
         $client = HttpClient::create();

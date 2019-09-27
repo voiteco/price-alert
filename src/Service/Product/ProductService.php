@@ -88,6 +88,11 @@ class ProductService
     public function sendPriceAlert(ProductSource $productSource, string $oldPrice): void
     {
         $difference = PriceHelper::calculateDifferenceInPercent($oldPrice, $productSource->getLatestPrice());
+
+        if (bccomp($difference, '1', 2) < 1) {
+            return;
+        }
+
         $product = $productSource->getProduct();
         $dto = new ProductDto(
             $product->getName(),
